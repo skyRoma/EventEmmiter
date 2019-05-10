@@ -44,7 +44,12 @@ class Item {
 
 window.onload = function() {
   let emmiter = new EventEmmiter();
+
   let colors = ["green", "red", "blue", "pink", "gray"];
+
+  let item1 = new Item("div:nth-child(1)");
+  let item2 = new Item("div:nth-child(2)");
+
   let changeColor = () => {
     emmiter.emit("changeColor", colors[Math.floor(Math.random() * 5)]);
   };
@@ -59,12 +64,10 @@ window.onload = function() {
     .querySelector("button:nth-child(2)")
     .addEventListener("click", changeBorderColor);
 
-  let item1 = new Item("div:nth-child(1)");
-  let item2 = new Item("div:nth-child(2)");
-
   emmiter.subscribe("changeColor", item1.changeColor);
   emmiter.subscribe("changeColor", item2.changeColor);
-
   emmiter.subscribe("changeBorderColor", item1.changeBorderColor);
-  emmiter.subscribe("changeBorderColor", item2.changeBorderColor);
+  const fn = emmiter.subscribe("changeBorderColor", item2.changeBorderColor);
+
+  document.querySelector("button:nth-child(3)").addEventListener("click", fn);
 };
